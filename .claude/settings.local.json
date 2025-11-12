@@ -14,7 +14,10 @@
       "Bash(netstat:*)",
       "Bash(findstr:*)",
       "Bash(set PORT=3002)",
-      "Bash(npm start:*)"
+      "Bash(npm start:*)",
+      "Bash(curl:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npx tsx:*)"
     ],
     "deny": [],
     "ask": []

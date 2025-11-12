@@ -6,6 +6,7 @@ import PostHeader from "@/components/blog/PostHeader";
 import PortableTextContent from "@/components/blog/PortableTextContent";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import { getOptimizedImageUrl } from "@/lib/imageUtils";
+import { BlogPostingStructuredData } from "@/components/seo/StructuredData";
 
 interface PostPageProps {
   params: Promise<{
@@ -71,31 +72,38 @@ export default async function PostPage({ params }: PostPageProps) {
   const categoryIds = post.categories?.map((cat) => cat._id) || [];
   const relatedPosts = await getRelatedPosts(slug, categoryIds);
 
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://devpod.vercel.app";
+  const currentUrl = `${baseUrl}/post/${slug}`;
+
   return (
-    <div className="bg-white py-12 dark:bg-zinc-950">
-      <Container>
-        <article className="mx-auto max-w-3xl">
-          <PostHeader post={post} />
+    <>
+      <BlogPostingStructuredData post={post} url={currentUrl} />
+      <div className="bg-white py-12 dark:bg-zinc-950">
+        <Container>
+          <article className="mx-auto max-w-3xl">
+            <PostHeader post={post} />
 
-          <div className="prose prose-zinc max-w-none dark:prose-invert">
-            {post.body && <PortableTextContent content={post.body} />}
-          </div>
+            <div className="prose prose-zinc max-w-none dark:prose-invert">
+              {post.body && <PortableTextContent content={post.body} />}
+            </div>
 
-          {post.author.bio && (
-            <aside className="mt-12 rounded-lg border border-zinc-200 bg-zinc-50 p-6 dark:border-zinc-800 dark:bg-zinc-900">
-              <h3 className="mb-2 font-semibold text-zinc-900 dark:text-zinc-50">
-                About {post.author.name}
-              </h3>
-              <p className="text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
-                {post.author.bio}
-              </p>
-            </aside>
-          )}
+            {post.author.bio && (
+              <aside className="mt-12 rounded-lg border border-zinc-200 bg-zinc-50 p-6 dark:border-zinc-800 dark:bg-zinc-900">
+                <h3 className="mb-2 font-semibold text-zinc-900 dark:text-zinc-50">
+                  About {post.author.name}
+                </h3>
+                <p className="text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
+                  {post.author.bio}
+                </p>
+              </aside>
+            )}
 
-          <RelatedPosts posts={relatedPosts} />
-        </article>
-      </Container>
-    </div>
+            <RelatedPosts posts={relatedPosts} />
+          </article>
+        </Container>
+      </div>
+    </>
   );
 }
 

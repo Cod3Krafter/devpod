@@ -265,3 +265,7 @@ export function getMockRelatedPosts(
 export function getMockAuthors(): Author[] {
   return mockAuthors;
 }
+
+export function getMockCategories(): Category[] {
+  return mockCategories;
+}

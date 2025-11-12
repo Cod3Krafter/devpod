@@ -8,6 +8,7 @@ import {
 import Container from "@/components/ui/Container";
 import AuthorProfile from "@/components/blog/AuthorProfile";
 import PostGrid from "@/components/blog/PostGrid";
+import { PersonStructuredData } from "@/components/seo/StructuredData";
 
 interface AuthorPageProps {
   params: Promise<{
@@ -69,19 +70,26 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
   // Get all posts by this author
   const posts = await getPostsByAuthor(author._id);
 
-  return (
-    <div className="bg-zinc-50 py-12 dark:bg-zinc-950">
-      <Container>
-        <AuthorProfile author={author} postCount={posts.length} />
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://devpod.vercel.app";
+  const currentUrl = `${baseUrl}/author/${slug}`;
 
-        <div className="border-t border-zinc-200 pt-8 dark:border-zinc-800">
-          <h2 className="mb-8 text-2xl font-bold text-zinc-900 dark:text-zinc-50">
-            Articles by {author.name}
-          </h2>
-          <PostGrid posts={posts} />
-        </div>
-      </Container>
-    </div>
+  return (
+    <>
+      <PersonStructuredData author={author} url={currentUrl} />
+      <div className="bg-zinc-50 py-12 dark:bg-zinc-950">
+        <Container>
+          <AuthorProfile author={author} postCount={posts.length} />
+
+          <div className="border-t border-zinc-200 pt-8 dark:border-zinc-800">
+            <h2 className="mb-8 text-2xl font-bold text-zinc-900 dark:text-zinc-50">
+              Articles by {author.name}
+            </h2>
+            <PostGrid posts={posts} />
+          </div>
+        </Container>
+      </div>
+    </>
   );
 }
 
