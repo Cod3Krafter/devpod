@@ -1,0 +1,5 @@
+<!-- SVG placeholder for avatars -->
+<svg width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="40" cy="40" r="40" fill="#e5e7eb"/>
+  <text x="50%" y="50%" font-size="32" fill="#9ca3af" text-anchor="middle" dy=".3em">?</text>
+</svg>
